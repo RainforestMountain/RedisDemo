@@ -43,13 +43,7 @@ jobs:
       with:
         languages: ${{ matrix.language }}
         build-mode: ${{ matrix.build-mode }}
-      
-        queries: |
-          - codeql-suites/java-security-extended.qls
-          - codeql-suites/java-security-and-quality.qls
-          - github/codeql/java-queries:java-best-practices
-          - github/codeql/java-queries:java-maintainability
-          - github/codeql/java-queries:java-logging
+        queries: security-extended,security-and-quality,github/codeql/java-queries:java-best-practices,github/codeql/java-queries:java-maintainability,github/codeql/java-queries:java-logging
 
     - name: Build with Maven
       if: matrix.build-mode == 'manual'
@@ -60,3 +54,4 @@ jobs:
       uses: github/codeql-action/analyze@v3
       with:
         category: "/language:${{matrix.language}}"
+
