@@ -1,4 +1,4 @@
-# CodeQL 分析（包含代码质量和可维护性规则）
+# CodeQL 分析（修复查询规则格式）
 name: "CodeQL for Java Maven"
 
 on:
@@ -7,7 +7,7 @@ on:
   pull_request:
     branches: [ "main", "master" ]
   schedule:
-    - cron: '30 5 * * 0'  # 每周日凌晨5:30运行
+    - cron: '30 5 * * 0'
 
 jobs:
   analyze:
@@ -44,17 +44,12 @@ jobs:
       with:
         languages: ${{ matrix.language }}
         build-mode: ${{ matrix.build-mode }}
-        # 核心配置：添加代码质量和可维护性规则集
+        # 修复：移除注释，仅保留有效的查询规则
         queries: |
-          # 基础安全规则（默认）
           security-extended
-          # 代码质量和可维护性规则
           security-and-quality
-          # 额外的Java最佳实践规则（包括日志、命名规范等）
           github/codeql/java-queries:java-best-practices
-          # 可维护性相关规则（复杂度、重复代码等）
           github/codeql/java-queries:java-maintainability
-          # 日志规范检查（检测关键操作是否有日志记录）
           github/codeql/java-queries:java-logging
 
     - name: Build with Maven
