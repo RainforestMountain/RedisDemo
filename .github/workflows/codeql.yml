@@ -44,12 +44,8 @@ jobs:
       with:
         languages: ${{ matrix.language }}
         build-mode: ${{ matrix.build-mode }}
-        queries: |
-          - codeql/java-queries:Security
-          - codeql/java-queries:Quality
-          - codeql/java-queries:Maintainability
-          - codeql/java-queries:Compliance
-
+        queries: 
+          https://github.com/github/codeql/tree/main/java/ql/src
     - name: Build with Maven
       if: matrix.build-mode == 'manual'
       run: |
