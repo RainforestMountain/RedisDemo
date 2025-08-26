@@ -44,10 +44,10 @@ jobs:
         languages: ${{ matrix.language }}
         build-mode: ${{ matrix.build-mode }}
         packs:
-          codeql/java-security@latest,
-          codeql/java-quality@latest,
-          codeql/java-maintainability@latest,
-          codeql/java-compliance@latest
+          codeql/java-security,
+          codeql/java-quality,
+          codeql/java-maintainability,
+          codeql/java-compliance
 
     - name: Build with Maven
       if: matrix.build-mode == 'manual'
