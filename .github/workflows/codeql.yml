@@ -1,4 +1,3 @@
-# CodeQL 分析（修复查询规则格式）
 name: "CodeQL for Java Maven"
 
 on:
@@ -44,13 +43,13 @@ jobs:
       with:
         languages: ${{ matrix.language }}
         build-mode: ${{ matrix.build-mode }}
-        # 修复：移除注释，仅保留有效的查询规则
+      
         queries: |
-          security-extended
-          security-and-quality
-          github/codeql/java-queries:java-best-practices
-          github/codeql/java-queries:java-maintainability
-          github/codeql/java-queries:java-logging
+          - codeql-suites/java-security-extended.qls
+          - codeql-suites/java-security-and-quality.qls
+          - github/codeql/java-queries:java-best-practices
+          - github/codeql/java-queries:java-maintainability
+          - github/codeql/java-queries:java-logging
 
     - name: Build with Maven
       if: matrix.build-mode == 'manual'
