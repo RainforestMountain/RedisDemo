@@ -43,7 +43,15 @@ jobs:
       with:
         languages: ${{ matrix.language }}
         build-mode: ${{ matrix.build-mode }}
-        queries: security-extended,security-and-quality
+        queries:
+          # 1. 安全漏洞规则（覆盖文档中所有Security分类，如XSS、命令注入）
+          codeql/java-queries:Security,
+          # 2. 代码质量规则（覆盖文档中Quality分类，如空指针、资源未释放）
+          codeql/java-queries:Quality,
+          # 3. 可维护性规则（覆盖文档中Maintainability分类，如复杂度、命名规范）
+          codeql/java-queries:Maintainability,
+          # 4. 合规性规则（覆盖文档中Compliance分类，如Java语法、框架规范）
+          codeql/java-queries:Compliance
 
     - name: Build with Maven
       if: matrix.build-mode == 'manual'
