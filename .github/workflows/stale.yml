@@ -1,0 +1,49 @@
+# 标记并关闭长时间无活动的issues和pull requests
+name: Mark stale issues and pull requests
+
+on:
+  schedule:
+    # 每天 UTC 时间 23:31 运行（可根据需要调整）
+    - cron: '31 23 * * *'
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+
+    steps:
+      - name: Mark stale issues and pull requests
+        uses: actions/stale@v9  # 使用最新版本v9以获得更好的兼容性和功能
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          
+          # 标记为陈旧的时间阈值（天）
+          days-before-stale: 30
+          # 关闭陈旧项的时间阈值（天）
+          days-before-close: 7
+          
+          # 陈旧issue配置
+          stale-issue-message: >
+            这个issue已经30天没有活动了，将在7天后自动关闭。
+            若仍需处理，请留言告知。
+          stale-issue-label: 'stale'
+          
+          # 陈旧PR配置
+          stale-pr-message: >
+            这个PR已经30天没有活动了，将在7天后自动关闭。
+            若仍在进行中，请更新状态或请求审核。
+          stale-pr-label: 'stale'
+          
+          # 豁免标签（带有这些标签的项不会被标记为陈旧）
+          exempt-issue-labels: 'pinned,security,enhancement'
+          exempt-pr-labels: 'pinned,security,work-in-progress'
+          
+          # 仅处理开放状态的项
+          only-issues: false  # 同时处理issues和PRs
+          operations-per-run: 30  # 每次运行处理的最大项数
+          
+          # 关闭时的评论 
+          close-issue-message: '由于长时间无活动，此issue已自动关闭。'
+          close-pr-message: '由于长时间无活动，此PR已自动关闭。'
