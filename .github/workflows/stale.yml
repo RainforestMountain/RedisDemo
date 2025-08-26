@@ -44,6 +44,6 @@ jobs:
           only-issues: false  # 同时处理issues和PRs
           operations-per-run: 30  # 每次运行处理的最大项数
           
-          # 关闭时的评论
+          # 关闭时的评论 
           close-issue-message: '由于长时间无活动，此issue已自动关闭。'
           close-pr-message: '由于长时间无活动，此PR已自动关闭。'
