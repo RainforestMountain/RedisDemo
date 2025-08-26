@@ -1,3 +1,4 @@
+# CodeQL for Java Maven项目分析
 name: "CodeQL for Java Maven"
 
 on:
@@ -6,7 +7,7 @@ on:
   pull_request:
     branches: [ "main", "master" ]
   schedule:
-    - cron: '30 5 * * 0'
+    - cron: '30 5 * * 0'  # 每周日凌晨5:30运行
 
 jobs:
   analyze:
@@ -29,29 +30,25 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
-        fetch-depth: 0
+        fetch-depth: 0  # 获取完整历史
 
     - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'temurin'
-        cache: maven
+        cache: maven  # 缓存Maven依赖
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
       with:
         languages: ${{ matrix.language }}
         build-mode: ${{ matrix.build-mode }}
-        queries:
-          # 1. 安全漏洞规则（覆盖文档中所有Security分类，如XSS、命令注入）
-          codeql/java-queries:Security,
-          # 2. 代码质量规则（覆盖文档中Quality分类，如空指针、资源未释放）
-          codeql/java-queries:Quality,
-          # 3. 可维护性规则（覆盖文档中Maintainability分类，如复杂度、命名规范）
-          codeql/java-queries:Maintainability,
-          # 4. 合规性规则（覆盖文档中Compliance分类，如Java语法、框架规范）
-          codeql/java-queries:Compliance
+        queries: |
+          - codeql/java-queries:Security
+          - codeql/java-queries:Quality
+          - codeql/java-queries:Maintainability
+          - codeql/java-queries:Compliance
 
     - name: Build with Maven
       if: matrix.build-mode == 'manual'
